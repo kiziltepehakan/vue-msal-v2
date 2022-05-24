@@ -1,6 +1,7 @@
 import * as msal from "@azure/msal-browser";
 
 import { iMSAL, DataObject, Options, Auth, CacheOptions, Request } from './types';
+import {AuthenticationResult, EventType} from "@azure/msal-browser";
 
 export class MSAL implements iMSAL {
     private msalLibrary: any;
@@ -61,6 +62,14 @@ export class MSAL implements iMSAL {
             cache: this.cache
         }
         this.msalLibrary = new msal.PublicClientApplication(config);
+        this.msalLibrary.addEventCallback((event) => {
+            console.log("msal.js :addEventCallback:" + event.eventType);
+            if (event.eventType === EventType.LOGIN_SUCCESS && event.payload) {
+                const payload = event.payload as AuthenticationResult;
+                const account = payload.account;
+                this.msalLibrary.setActiveAccount(account);
+            }
+        });
         this.signIn()
     }
     signIn() {

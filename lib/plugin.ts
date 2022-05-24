@@ -2,12 +2,13 @@
 import { iMSAL, Options } from './src/types';
 import { MSAL } from './src/main';
 import { mixin } from "./mixin";
+export const msalMixin = mixin;
 
 export default class msalPlugin {
     static install(Vue: any, options: Options): void {
         Vue.prototype.$msal = new msalPlugin(options, Vue);
     }
-    constructor(options: Options, Vue: any = undefined) {
+    constructor(options: Options, Vue: any) {
         const msal = new MSAL(options);
         if (Vue && options.framework && options.framework.globalMixin) {
             Vue.mixin(mixin);
