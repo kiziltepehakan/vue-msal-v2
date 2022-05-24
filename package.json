@@ -1,6 +1,6 @@
 {
-  "name": "vue-msal-2",
-  "version": "1.3.0",
+  "name": "vue-msal-v2",
+  "version": "1.0.0",
   "description": "Vue plugin for using Microsoft Authentication Library (MSAL 2.0) (forked from vue-msal Marios Vertopoulos)",
   "main": "dist/plugin.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "Yoeran Kaniok",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yoerankaniok/vue-msal/issues"
+    "url": "https://github.com/kiziltepehakan/vue-msal-v2/issues"
   },
   "contributors": [
     "Marios Vertopoulos",
@@ -27,13 +27,13 @@
   "eslintIgnore": [
     "lib/*.*"
   ],
-  "homepage": "https://github.com/yoerankaniok/vue-msal#readme",
+  "homepage": "https://github.com/kiziltepehakan/vue-msal-v2#readme",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yoerankaniok/vue-msal.git"
+    "url": "git+https://github.com/kiziltepehakan/vue-msal-v2.git"
   },
   "dependencies": {
     "@azure/msal-browser": "^2.0.0-beta.4",
