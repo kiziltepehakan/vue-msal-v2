@@ -111,6 +111,15 @@ export class MSAL implements iMSAL {
         this.data.idToken = "";
         this.data.user.userName = "";
     }
+    async logoutRedirect() {
+        const logoutRequest = {
+            account: this.i̇nstance.getAccountByUsername(this.data.user.userName)
+        };
+        await this.i̇nstance.logoutRedirect(logoutRequest);
+        this.data.accessToken = "";
+        this.data.idToken = "";
+        this.data.user.userName = "";
+    }
     async acquireToken(request = this.loginRequest, retries = 0) {
         this.loginRequest.account = this.data.account
         console.log('in acquireToken! retries: ' + retries);

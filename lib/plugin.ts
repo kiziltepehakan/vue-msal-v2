@@ -46,6 +46,7 @@ export default class msalPlugin {
             async loginPopup() { await msal.loginPopup(); },
             async loginRedirect() { await msal.loginRedirect(); },
             async signOut() { await msal.signOut(); },
+            async logoutRedirect() { await msal.logoutRedirect(); },
             async acquireToken() { await msal.acquireToken(); },
             isAuthenticated() { return msal.isAuthenticated(); }
         };
