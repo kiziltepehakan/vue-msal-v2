@@ -1,10 +1,10 @@
 import * as msal from "@azure/msal-browser";
 
-import { iMSAL, DataObject, Options, Auth, CacheOptions, Request } from './types';
-import {AuthenticationResult, EventType} from "@azure/msal-browser";
+import { iMSAL, DataObject, Options, Auth, Request } from './types';
+import {AuthenticationResult, CacheOptions, EventType} from "@azure/msal-browser";
 
 export class MSAL implements iMSAL {
-    private msalLibrary: any;
+    public i̇nstance: any;
     private tokenExpirationTimers: {[key: string]: undefined | number} = {};
     public data: DataObject = {
         isAuthenticated: false,
@@ -36,7 +36,7 @@ export class MSAL implements iMSAL {
     };
     private cache: CacheOptions = {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
-        storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
+        storeAuthStateInCookie: false // Set this to "true" if you are having issues on IE11 or Edge
     };
     // Add here scopes for id token to be used at MS Identity Platform endpoints.
     private loginRequest: Request = {
@@ -56,24 +56,23 @@ export class MSAL implements iMSAL {
         this.cache = Object.assign(this.cache, options.cache);
         this.loginRequest = Object.assign(this.loginRequest, options.loginRequest);
         this.tokenRequest = Object.assign(this.tokenRequest, options.tokenRequest);
-        
+
         const config: msal.Configuration = {
             auth: this.auth,
             cache: this.cache
         }
-        this.msalLibrary = new msal.PublicClientApplication(config);
-        this.msalLibrary.addEventCallback((event) => {
-            console.log("msal.js :addEventCallback:" + event.eventType);
+        this.i̇nstance = new msal.PublicClientApplication(config);
+        this.i̇nstance.addEventCallback((event) => {
             if (event.eventType === EventType.LOGIN_SUCCESS && event.payload) {
                 const payload = event.payload as AuthenticationResult;
                 const account = payload.account;
-                this.msalLibrary.setActiveAccount(account);
+                this.i̇nstance.setActiveAccount(account);
             }
         });
-        this.signIn()
+        this.loginPopup();
     }
-    signIn() {
-        return this.msalLibrary.loginPopup(this.loginRequest).then(loginResponse => {
+    async loginPopup() {
+        return await this.i̇nstance.loginPopup(this.loginRequest).then(loginResponse => {
             if (loginResponse !== null) {
                 this.data.user.userName = loginResponse.account.username;
                 this.data.accessToken = loginResponse.accessToken;
@@ -81,7 +80,7 @@ export class MSAL implements iMSAL {
                 this.data.account = loginResponse.account
             } else {
                 // need to call getAccount here?
-                const currentAccounts = this.msalLibrary.getAllAccounts();
+                const currentAccounts = this.i̇nstance.getAllAccounts();
                 console.log('all accounts: ');
                 console.log(currentAccounts);
                 if (currentAccounts === null) {
@@ -96,14 +95,17 @@ export class MSAL implements iMSAL {
                 }
             }
         }).catch(function (error) {
-            console.log(error);
+            console.error(error);
         });
     }
-    signOut() {
+    async loginRedirect() {
+        await this.i̇nstance.loginRedirect(this.loginRequest);
+    }
+    async signOut() {
         const logoutRequest = {
-            account: this.msalLibrary.getAccountByUsername(this.data.user.userName)
+            account: this.i̇nstance.getAccountByUsername(this.data.user.userName)
         };
-        this.msalLibrary.logout(logoutRequest);
+        await this.i̇nstance.logout(logoutRequest);
         this.data.accessToken = "";
         this.data.idToken = "";
         this.data.user.userName = "";
@@ -112,13 +114,13 @@ export class MSAL implements iMSAL {
         this.loginRequest.account = this.data.account
         console.log('in acquireToken! retries: ' + retries);
         try {
-            const response = await this.msalLibrary.acquireTokenSilent(request);
+            const response = await this.i̇nstance.acquireTokenSilent(request);
             this.handleTokenResponse(null, response);
         } catch (error) {
             console.log("silent token acquisition fails.");
             if (error instanceof msal.InteractionRequiredAuthError) {
                 console.log("acquiring token using popup");
-                return this.msalLibrary.acquireTokenPopup(request).catch(error => {
+                return await this.i̇nstance.acquireTokenPopup(request).catch(error => {
                     console.error(error);
                 });
             } else if(retries > 0) {
@@ -135,7 +137,7 @@ export class MSAL implements iMSAL {
         }
     }
     isAuthenticated() {
-        if (this.msalLibrary.getAllAccounts() === null) {
+        if (this.i̇nstance.getAllAccounts() === null) {
             return false
         } else {
             return true
