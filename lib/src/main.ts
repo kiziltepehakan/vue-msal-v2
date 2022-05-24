@@ -72,7 +72,7 @@ export class MSAL implements iMSAL {
         this.loginPopup();
     }
     async loginPopup() {
-        return await this.i̇nstance.loginPopup(this.loginRequest).then(loginResponse => {
+        return await this.i̇nstance.loginPopup(this.loginRequest).then(async loginResponse => {
             if (loginResponse !== null) {
                 this.data.user.userName = loginResponse.account.username;
                 this.data.accessToken = loginResponse.accessToken;
@@ -95,6 +95,7 @@ export class MSAL implements iMSAL {
                 }
             }
         }).catch(function (error) {
+            sessionStorage.removeItem("msal.interaction.status")
             console.error(error);
         });
     }
