@@ -69,7 +69,7 @@ export class MSAL implements iMSAL {
                 this.i̇nstance.setActiveAccount(account);
             }
         });
-        this.loginPopup();
+        this.loginRedirect();
     }
     async loginPopup() {
         return await this.i̇nstance.loginPopup(this.loginRequest).then(async loginResponse => {
@@ -81,8 +81,7 @@ export class MSAL implements iMSAL {
             } else {
                 // need to call getAccount here?
                 const currentAccounts = this.i̇nstance.getAllAccounts();
-                console.log('all accounts: ');
-                console.log(currentAccounts);
+                console.debug('all accounts: '+ JSON.stringify(currentAccounts));
                 if (currentAccounts === null) {
                     return;
                 } else if (currentAccounts.length > 1) {
@@ -90,8 +89,7 @@ export class MSAL implements iMSAL {
                 } else if (currentAccounts.length === 1) {
                     this.data.user.userName = currentAccounts[0].username;
                     this.data.user.userName = currentAccounts[0].name;
-                    console.log('this.data: ');
-                    console.log(this.data);
+                    console.debug('this.data: '+ JSON.stringify(this.data));
                 }
             }
         }).catch(function (error) {
@@ -100,7 +98,25 @@ export class MSAL implements iMSAL {
         });
     }
     async loginRedirect() {
-        await this.i̇nstance.loginRedirect(this.loginRequest);
+        await this.i̇nstance.handleRedirectPromise().then(async (response) => {
+            let accountId;
+            if (response !== null) {
+                accountId = response.account.homeAccountId;
+                // Display signed-in user content, call API, etc.
+            } else {
+                // In case multiple accounts exist, you can select
+                const currentAccounts = this.i̇nstance.getAllAccounts();
+
+                if (currentAccounts.length === 0) {
+                    // no accounts signed-in, attempt to sign a user in
+                    await this.i̇nstance.loginRedirect(this.loginRequest)
+                } else if (currentAccounts.length > 1) {
+                    // Add choose account code here
+                } else if (currentAccounts.length === 1) {
+                    accountId = currentAccounts[0].homeAccountId;
+                }
+            }
+        });
     }
     async signOut() {
         const logoutRequest = {
