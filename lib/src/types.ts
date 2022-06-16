@@ -46,6 +46,7 @@ export interface iMSAL {
     data: DataObject,
     loginPopup: () => Promise<any> | void,
     loginRedirect: () => Promise<any> | void,
+    ssoSilent: () => Promise<any> | void,
     signOut: () => Promise<any> | void,
     logoutRedirect: () => Promise<any> | void,
     acquireToken: () => Promise<any> | void,
