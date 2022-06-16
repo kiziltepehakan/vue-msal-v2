@@ -120,13 +120,10 @@ export class MSAL implements iMSAL {
     }
     async ssoSilent() {
         try {
-            console.log("ssoSilent start");
             const loginResponse = await this.i̇nstance.ssoSilent(this.tokenRequest);
-            console.log("ssoSilent end) " + JSON.stringify(loginResponse));
         } catch (err) {
             if (err instanceof InteractionRequiredAuthError) {
                 const loginResponse = await this.i̇nstance.loginPopup(this.tokenRequest).catch(error => {
-                    console.log("2.) " + JSON.stringify(loginResponse));
                     // handle error
                     console.error("[Error]" + JSON.stringify(error));
                 });
