@@ -1,7 +1,7 @@
 import * as msal from "@azure/msal-browser";
 
 import { iMSAL, DataObject, Options, Auth, Request } from './types';
-import {AuthenticationResult, CacheOptions, EventType} from "@azure/msal-browser";
+import {AuthenticationResult, CacheOptions, EventType, InteractionRequiredAuthError} from "@azure/msal-browser";
 
 export class MSAL implements iMSAL {
     public i̇nstance: any;
@@ -117,6 +117,23 @@ export class MSAL implements iMSAL {
                 }
             }
         });
+    }
+    async ssoSilent() {
+        try {
+            const loginResponse = await this.i̇nstance.ssoSilent(this.tokenRequest);
+            console.log("2.) " + JSON.stringify(loginResponse));
+        } catch (err) {
+            if (err instanceof InteractionRequiredAuthError) {
+                const loginResponse = await this.i̇nstance.loginPopup(this.tokenRequest).catch(error => {
+                    console.log("2.) " + JSON.stringify(loginResponse));
+                    // handle error
+                    console.error("[Error]" + JSON.stringify(error));
+                });
+            } else {
+                // handle error
+                console.error("[Error]" + JSON.stringify(err));
+            }
+        }
     }
     async signOut() {
         const logoutRequest = {
