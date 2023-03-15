@@ -24,7 +24,7 @@ export class MSAL implements iMSAL {
         }
     };
     // Config object to be passed to Msal on creation.
-    // For a full list of msal.js configuration parameters, 
+    // For a full list of msal.js configuration parameters,
     // visit https://azuread.github.io/microsoft-authentication-library-for-js/docs/msal/modules/_authenticationparameters_.html
     private auth: Auth = {
         clientId: "",
@@ -176,6 +176,18 @@ export class MSAL implements iMSAL {
             }
             return false;
         }
+    }
+    async getAcquireToken(request = this.loginRequest, retries = 0) {
+        this.loginRequest.account = this.data.account
+        console.log('in getAcquireToken! retries: ' + retries);
+        try {
+            const response = await this.i̇nstance.acquireTokenSilent(request);
+            await this.handleTokenResponse(null, response);
+            return response.accessToken;
+        } catch (error) {
+            console.log("getAcquireToken: silent token acquisition fails.");
+        }
+        return ""
     }
     isAuthenticated() {
         if (this.i̇nstance.getAllAccounts() === null) {

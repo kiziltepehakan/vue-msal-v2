@@ -29,7 +29,7 @@ export type Request = {
 }
 
 // Config object to be passed to Msal on creation.
-// For a full list of msal.js configuration parameters, 
+// For a full list of msal.js configuration parameters,
 // visit https://azuread.github.io/microsoft-authentication-library-for-js/docs/msal/modules/_authenticationparameters_.html
 export type Auth = {
     clientId: string,
@@ -50,6 +50,7 @@ export interface iMSAL {
     signOut: () => Promise<any> | void,
     logoutRedirect: () => Promise<any> | void,
     acquireToken: () => Promise<any> | void,
+    getAcquireToken: () => Promise<String> | string,
     isAuthenticated: () => boolean
 }
 
