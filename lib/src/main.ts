@@ -183,11 +183,11 @@ export class MSAL implements iMSAL {
         try {
             const response = await this.i̇nstance.acquireTokenSilent(request);
             await this.handleTokenResponse(null, response);
-            return response.accessToken;
+            return response;
         } catch (error) {
             console.log("getAcquireToken: silent token acquisition fails.");
         }
-        return ""
+        return {}
     }
     isAuthenticated() {
         if (this.i̇nstance.getAllAccounts() === null) {

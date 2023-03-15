@@ -50,7 +50,7 @@ export interface iMSAL {
     signOut: () => Promise<any> | void,
     logoutRedirect: () => Promise<any> | void,
     acquireToken: () => Promise<any> | void,
-    getAcquireToken: () => Promise<String> | string,
+    getAcquireToken: () => Promise<any> | string,
     isAuthenticated: () => boolean
 }
 
