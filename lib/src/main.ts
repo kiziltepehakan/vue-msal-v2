@@ -120,9 +120,10 @@ export class MSAL implements iMSAL {
     }
     async ssoSilent() {
         try {
-            const loginResponse = await this.i̇nstance.ssoSilent(this.tokenRequest);
+                const loginResponse = await this.i̇nstance.ssoSilent(this.tokenRequest);
         } catch (err) {
-            if (err instanceof InteractionRequiredAuthError) {
+            console.error("[Error]" + JSON.stringify(err));
+            /**if (err instanceof InteractionRequiredAuthError) {
                 const loginResponse = await this.i̇nstance.loginPopup(this.tokenRequest).catch(error => {
                     // handle error
                     console.error("[Error]" + JSON.stringify(error));
@@ -130,7 +131,7 @@ export class MSAL implements iMSAL {
             } else {
                 // handle error
                 console.error("[Error]" + JSON.stringify(err));
-            }
+            }*/
         }
     }
     async signOut() {

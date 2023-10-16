@@ -1,6 +1,6 @@
 {
   "name": "vue-msal-js",
-  "version": "1.0.34",
+  "version": "1.0.39",
   "description": "Vue plugin for using Microsoft Authentication Library (MSAL 2.0) (forked from vue-msal Marios Vertopoulos)",
   "main": "dist/plugin.js",
   "scripts": {
@@ -37,14 +37,15 @@
     "url": "git+https://github.com/kiziltepehakan/vue-msal-v2.git"
   },
   "dependencies": {
-    "@azure/msal-browser": "^2.32.2",
-    "@azure/msal-common": "^9.1.1",
-    "axios": "^1.2.6",
+    "@azure/msal-browser": "^2.38.2",
+    "@azure/msal-common": "^12.1.0",
+    "axios": "^1.5.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191",
-    "typescript": "^4.9.5"
+    "@types/lodash": "^4.14.199",
+    "@types/node": "^20.8.6",
+    "typescript": "^5.2.2"
   },
   "directories": {
     "lib": "lib"
